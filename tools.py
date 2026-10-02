@@ -192,9 +192,9 @@ def suggest_outfit(new_item: dict, wardrobe: dict) -> str:
         # instead of inventing clothes the user doesn't own.
         prompt = (
             f"Someone is thinking about buying this thrifted item:\n{item_text}\n\n"
-            "They haven't saved any of their own clothes yet. Suggest one or two "
+            "They haven't saved any of the clothes they own yet. Suggest one or two "
             "outfits built around this item, using common pieces most people "
-            "could find easily."
+            "could find easily or would already have in their collection."
         )
     else:
         wardrobe_text = "\n".join(
@@ -203,9 +203,9 @@ def suggest_outfit(new_item: dict, wardrobe: dict) -> str:
         )
         prompt = (
             f"Someone is thinking about buying this thrifted item:\n{item_text}\n\n"
-            f"Here is what they already own:\n{wardrobe_text}\n\n"
+            f"Here are all the items they already own:\n{wardrobe_text}\n\n"
             "Suggest one or two outfits that pair the new item with pieces from "
-            "their wardrobe. Name the wardrobe pieces exactly as listed."
+            "their wardrobe. Name the wardrobe pieces exactly as listed do not leave out any details."
         )
 
     return generate(prompt, system=system)
@@ -270,7 +270,7 @@ def create_fit_card(outfit: str, new_item: dict) -> str:
 
     system = (
         "You write short, casual social media captions about thrift finds. "
-        "Sound like a real person posting, not a product description."
+        "Sound like a real person posting, but don't be too formal or only talk about the item."
     )
     prompt = (
         f"Write a 2-4 sentence caption about this thrift find.", "Item: {new_item['title']}", "Price: ${new_item['price']:g}\n", "Platform: {new_item['platform']}\n"
