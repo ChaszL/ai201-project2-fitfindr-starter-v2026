@@ -22,12 +22,14 @@ data earns credit; *"80% seemed reasonable"* does not.
 ## 1. A matching query completes all three tools
 
 Given a query that matches at least one listing, the agent completes all three
-tool calls and returns a fit card — in at least 4 of 5 tries.
+tool calls and returns a fit card — in at least 5 of 5 tries.
 
 **Why this target:**
 <!-- Why 4 of 5 and not 5 of 5? Something about your search, probably —
      "my search is a plain keyword match and some phrasings will miss" is a
      real answer. -->
+
+I chose 5 of 5 for this because my search_listings tool matches based off the user's parsed description and how many words througout the whole listing matches the users parsed input. It also filters through size and price first which makes finding those listings easier. 
 
 ---
 
@@ -40,6 +42,7 @@ Given a query that matches no listings, the agent stops before calling
 <!-- Why is 5 of 5 reasonable here when criterion 1 isn't? What's different
      about this path? -->
 
+I made this a 5 of 5 because if nothing is found from the search_listings tool, it will return an empty list which fill cause the loop to stop. This path makes it difficult to fail since the listing item will have to have nothing in common with the users request for an empty string to be returned. 
 ---
 
 ## 3. Something about state
@@ -54,10 +57,11 @@ Given a query that matches no listings, the agent stops before calling
      compares session["selected_item"] against what actually reached
      suggest_outfit is the shape you're after. -->
 
-
+For 5 of 5 of my item searches, the found item from the seach_listings tool thats stored will match the new item input in the suggest outfit tool.
 
 **Why this target:**
 
+I set this to 5 of 5 because the output of the search listings will be the same as the input of the suggest_outfit tool. If the search_listings tool finds a listing and another listing is referenced in the suggest_outfit tool, then something is wrong. 
 
 
 ---
@@ -75,11 +79,11 @@ Given a query that matches no listings, the agent stops before calling
      sentence? A card longer than a caption anyone would post? Any of those can
      be turned into a number. -->
 
-
+For 4 of 5 of my fit card captions, the model will return an item name, price, and how it was styled from user wardrobe.
 
 **Why this target:**
 
-
+I picked 4 out of 5 becuase this tool relies on an LLM call which can cause returns that forget or combine items into the same sentance without describing them. 
 
 ---
 
@@ -92,11 +96,12 @@ Given a query that matches no listings, the agent stops before calling
      search respects a price ceiling — anything, as long as it names a number
      or an observable outcome. -->
 
+For 4 of 5 of my search request with specific details, the search_listings tool will find a listing with the correct price, item, color, and size. 
 
 
 **Why this target:**
 
-
+I picked this target because since there are not specific color feilds that the parser looks for, the description matching will be the only function making sure the right listing is caught and it can fail to catch all specific descriptions. 
 
 ---
 
