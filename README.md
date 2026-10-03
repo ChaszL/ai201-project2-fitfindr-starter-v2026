@@ -40,6 +40,7 @@
 ## What This Does
 
 <!-- Three or four sentences: what a user asks for, and what they get back. -->
+This agent searches through listings to help a user find, stlye, and post their new thifited item. The user enters in a description of what they want to the agent and the agent will search through listings to find something that matches. Once it finds something it will then style it using other items in the users closet and then make a caption for a social media post. 
 
 
 
@@ -99,10 +100,10 @@ if search listings returns an empty list, add an error message to the session wh
 
 **Where it lives:** `agent.py::run_agent`
 
-**How the query is parsed:** <!-- regex, string splitting, or asking the model — say which -->
+**How the query is parsed:** The query is parsed using regex to sperate description, price, and size.<!-- regex, string splitting, or asking the model — say which -->
 
 **What moves through the session:** <!-- which fields, in what order -->
-
+The session starts with the query and the user's wardrobe. Then the user's query is parsed > search listings > select an item > outfit suggestion > fit card, in that order. Each tool reads the previous feild and if search_listings is empty an error is set in the session.  
 ---
 
 ## Sample Run
@@ -165,15 +166,15 @@ Can’t believe I finally found the holy grail of denim on depop today. These me
 
 **Moment 1**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* I asked Claude to help build the run agent function for me.
+- *What came back:* It built all of the run agent function for me and it worked very well.
+- *What I changed:* There is a filter for words to exculde from the user's query to reduce confusion when looking for listings. It seemed to not have enough words, so I added some more to it. 
 
 **Moment 2**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* I asked claude to help me create the tools also.
+- *What came back:* It gave me all three tools with different propmts for the llm model.
+- *What I changed:* I changed the propmts to be more specific and to fit what I wrote down. 
 
 <!-- ═══════════════════════ UNIT 4 — THE TEST ═══════════════════════
 
