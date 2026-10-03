@@ -273,9 +273,14 @@ def create_fit_card(outfit: str, new_item: dict) -> str:
         "Sound like a real person posting, but don't be too formal or only talk about the item."
     )
     prompt = (
-        f"Write a 2-4 sentence caption about this thrift find.", "Item: {new_item['title']}", "Price: ${new_item['price']:g}\n", "Platform: {new_item['platform']}\n"
-        f"Style: {', '.join(new_item['style_tags'])}", "How they're planning to wear it:\n{outfit}"
-        "Mention the item, the price and the platform once each. Also add a description of the the item and Be specific "
-        "about the vibe. Hashtags and an emoji or two are fine."
+        f"Write a 2-4 sentence caption about this thrift find.\n\n"
+        f"Item: {new_item['title']}\n"
+        f"Price: ${new_item['price']:g}\n"
+        f"Platform: {new_item['platform']}\n"
+        f"Style: {', '.join(new_item['style_tags'])}\n\n"
+        f"How they're planning to wear it:\n{outfit}\n\n"
+        "Mention the item, the price and the platform once each. Also add a "
+        "description of the item and be specific about the vibe. "
+        "Hashtags and an emoji or two are fine."
     )
     return generate(prompt, system=system)
