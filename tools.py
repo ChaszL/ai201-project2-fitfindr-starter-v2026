@@ -279,8 +279,8 @@ def create_fit_card(outfit: str, new_item: dict) -> str:
         f"Platform: {new_item['platform']}\n"
         f"Style: {', '.join(new_item['style_tags'])}\n\n"
         f"How they're planning to wear it:\n{outfit}\n\n"
-        "Mention the item, the price and the platform once each. Also add a "
-        "description of the item and be specific about the vibe. "
+        "Mention the item, the price in $ only no other dollar references,and the platform once each. Also add a "
+        "description of the item and be specific about the vibe and how the user can wear it. "
         "Hashtags and an emoji or two are fine."
     )
     return generate(prompt, system=system)

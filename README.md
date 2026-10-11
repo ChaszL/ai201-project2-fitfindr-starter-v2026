@@ -277,7 +277,7 @@ Trace:
 
 **Diagnoses**
 
-
+The fit card criterion missed on 2 of 5 items. One item had the price staged as 'Thirty bucks' instead of $30 and the other item had no styling advice tied to it. My prompt does not specify how to say the price so that it cannot be mistakened and did not specifiy to always include how the user plans to wear their outfit. This cause the tool to work but the model to forget to include those specific details.
 
 ---
 
