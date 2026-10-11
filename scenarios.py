@@ -30,10 +30,24 @@ SCENARIOS = [
     },
     {
         # A user with nothing saved. One of unit 4's three failure modes.
-        "name": "empty wardrobe",
-        "query": "denim jacket under $50",
-        "wardrobe": "empty",
-        "criterion": None,
+        "name": "state carries to next tool",
+        "query": "black leather bomber jacket size M under $80",
+        "wardrobe": "example",
+        "criterion": 3,
+    },
+    {
+        # A user with nothing saved. One of unit 4's three failure modes.
+        "name": "fit card returns certain values to user",
+        "query": "silk slip dress size M under $40",
+        "wardrobe": "example",
+        "criterion": 4,
+    },
+    {
+        # A user with nothing saved. One of unit 4's three failure modes.
+        "name": "Search lisitngs finds an exact match",
+        "query": "emerald green velvet blazer size S under $60",
+        "wardrobe": "example",
+        "criterion": 5,
     },
     # TODO: add what your criteria 3, 4 and 5 need.
     #

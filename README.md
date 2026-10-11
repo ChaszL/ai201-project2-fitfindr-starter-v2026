@@ -196,17 +196,55 @@ Can’t believe I finally found the holy grail of denim on depop today. These me
 
 | Criterion | Target | Try 1 | Try 2 | Try 3 | Try 4 | Try 5 | Verdict |
 |---|---|---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |  |  |
+| 1. matching query completes | 5/5 | PASS | PASS | PASS | PASS | PASS | MET 5 of 5 |
+| 2. impossible query stops early | 5/5 | PASS | PASS | PASS | PASS | PASS | MET 5 of 5 |
+| 3. state carries to next tool | 5/5 | PASS | PASS | PASS | PASS | PASS | MET 5 of 5 |
+| 4. fit card returns certain values to user | 4/5 | FAIL | FAIL | PASS | PASS | PASS | MET 4 of 5 |
+| 5. Search lisitngs finds an exact match | 4/5 | PASS | PASS | PASS | PASS | PASS | MET 4 of 5 |
 
 **Real output from one try**, pasted as text, naming the file and function
 that produced it:
 
 ```
+File: run_eval.py
+Function: run_eval.py::main → agent.py::run_agent
+Scenario: matching query completes (criterion 1), Try 1
+Query: vintage graphic tee under $30
 
+Outfit suggestion:
+
+Buy it! $24 is a solid price for a vintage-look bootleg tee. 
+
+**Outfit 1 (Edgy Streetwear):**
+Pair the Graphic Tee — 2003 Tour Bootleg Style with your baggy straight-leg jeans, dark wash. Layer the vintage black denim jacket on top and finish with your black combat boots and black crossbody bag.
+
+**Outfit 2 (Casual Grunge):**
+Tuck the Graphic Tee — 2003 Tour Bootleg Style into your wide-leg khaki trousers, cinched with the brown leather belt. Throw your oversized grey crewneck sweatshirt over your shoulders and step into your chunky white sneakers.
+
+Fit card:
+
+Finally scored this faded 2003 tour bootleg tee on Depop and I am obsessed with the heavy Y2K grunge energy. 🖤 For $24, it’s giving major vintage concert vibes without me having to pay actual concert prices. Going to throw it on with baggy denim and combat boots later—peep the listing on my page! 🎸✨ 
+
+#depop #vintagestyle #grungetee #y2kstreetwear
+
+Trace:
+
+[1] parse_query
+      in:  vintage graphic tee under $30
+      out: {'description': 'vintage graphic tee', 'size': None, 'max_price': 30.0}
+[2] search_listings (via MCP)
+      in:  {'description': 'vintage graphic tee', 'size': None, 'max_price': 30.0}
+      out: 10 items: Graphic Tee — 2003 Tour Bootleg Style, Vintage Band Tee — Faded Grey, Y2K Baby Tee — Butterfly Print … +7 more
+      →    branch: results, continuing
+[3] select_item
+      in:  first result
+      out: Graphic Tee — 2003 Tour Bootleg Style ($24.0, depop)
+[4] suggest_outfit
+      in:  Graphic Tee — 2003 Tour Bootleg Style ($24.0, depop)
+      out: Buy it! $24 is a solid price for a vintage-look bootleg tee.   **Outfit 1 (Edgy Streetwear):** Pair the Graphi…
+[5] create_fit_card
+      in:  Buy it! $24 is a solid price for a vintage-look bootleg tee.   **Outfit 1 (Edgy Streetwear):** Pair the Graphi…
+      out: Finally scored this faded 2003 tour bootleg tee on Depop and I am obsessed with the heavy Y2K grunge energy. 🖤…
 ```
 
 ---
@@ -231,11 +269,11 @@ that produced it:
 
 | # | Criterion | Target | Verdict | How I decided |
 |---|---|---|---|---|
-| 1 |  |  |  |  |
-| 2 |  |  |  |  |
-| 3 |  |  |  |  |
-| 4 |  |  |  |  |
-| 5 |  |  |  |  |
+| 1 | Given a query that matches at least one listing, the agent completes all three tool calls and returns a fit card — in at least 5 of 5 tries. | 5/5 | MET | I checked the trace logs to see what tools were called and when to verify all tools were used. |
+| 2 | Given a query that matches no listings, the agent stops before calling `suggest_outfit` and returns a message naming what to change — 5 of 5 tries. | 5/5 | MET | I checked the final answer for each try to see weather it contined a fit card or early stop message. |
+| 3 | For 5 of 5 of my item searches, the found item from the seach_listings tool thats stored will match the new item input in the suggest outfit tool. | 5/5 | MET | I Checked the trace log to see weather the same state was used between the search listings and suggest outfit. |
+| 4 | For 4 of 5 of my fit card captions, the model will return an item name, price, and how it was styled from user wardrobe. | 4/5 | MISSED | I Checked every fit card to see if the messaage contained a price with a $ sign, the name of the item the agent found, and the styling suggestions it made. |
+| 5 | For 4 of 5 of my search request with specific details, the search_listings tool will find a listing with the correct price, item, color, and size. | 4/5 | MET | I Checked the search listings and outfit suggestions trace logs to make sure the outfits found matched the prompt given. |
 
 **Diagnoses**
 
