@@ -258,13 +258,50 @@ that produced it:
 **Happy path**
 
 ```
+[1] parse_query
+      in:  vintage graphic tee under 
+      out: {'description': 'vintage graphic tee', 'size': None, 'max_price': None}
+[2] search_listings (via MCP)
+      in:  {'description': 'vintage graphic tee', 'size': None, 'max_price': None}
+      out: 10 items: Graphic Tee — 2003 Tour Bootleg Style, Vintage Band Tee — Faded Grey, Y2K Baby Tee — Butterfly Print … +7 more
+      →    branch: results, continuing
+[3] select_item
+      in:  first result
+      out: Graphic Tee — 2003 Tour Bootleg Style ($24.0, depop)
+[4] suggest_outfit
+      in:  Graphic Tee — 2003 Tour Bootleg Style ($24.0, depop)
+      out: Buy it! It’s great for layering.   **Outfit 1:** Pair the Graphic Tee — 2003 Tour Bootleg Style with your bagg…
+[5] create_fit_card
+      in:  Buy it! It’s great for layering.   **Outfit 1:** Pair the Graphic Tee — 2003 Tour Bootleg Style with your bagg…
+      out: Obsessed with this 2003 tour bootleg style graphic tee—the faded print gives it the ultimate grungy, lived-in …
 
+  Found:    Graphic Tee — 2003 Tour Bootleg Style — $24.0 on depop
+
+  Outfit:   Buy it! It’s great for layering. 
+
+**Outfit 1:** Pair the Graphic Tee — 2003 Tour Bootleg Style with your baggy straight-leg jeans, dark wash and black combat boots. Throw on the vintage black denim jacket over top for an easy, grungy monochrome look. 
+
+**Outfit 2:** Tuck the Graphic Tee — 2003 Tour Bootleg Style into your wide-leg khaki trousers, add the brown leather belt, and finish with your chunky white sneakers for a casual, street-style contrast.
+
+  Fit card: Obsessed with this 2003 tour bootleg style graphic tee—the faded print gives it the ultimate grungy, lived-in feel. Snagged it on depop for $24 and it's honestly the best layering piece for transitioning into cooler weather. Chunky sneakers and khakis or worn-in black denim? Say less. 🖤👕 #thrifted #streetwear #vintagestyle
+
+2 model calls this session, 524 prompt + 200 output tokens
 ```
 
 **Empty search**
 
 ```
+[1] parse_query
+      in:  designer ballgown size XXS under 
+      out: {'description': 'designer ballgown', 'size': 'XXS', 'max_price': None}
+[2] search_listings (via MCP)
+      in:  {'description': 'designer ballgown', 'size': 'XXS', 'max_price': None}
+      out: [] (empty)
+      →    branch: empty, stopping
 
+  Nothing matched that search. Try: drop the size filter (XXS); or use fewer or broader words than "designer ballgown" (e.g. just "tee" or "jacket").
+
+0 model calls this session
 ```
 
 **On the MCP move:** <!-- what changed in your code, and whether anything
