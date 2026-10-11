@@ -199,8 +199,8 @@ Can’t believe I finally found the holy grail of denim on depop today. These me
 | 1. matching query completes | 5/5 | PASS | PASS | PASS | PASS | PASS | MET 5 of 5 |
 | 2. impossible query stops early | 5/5 | PASS | PASS | PASS | PASS | PASS | MET 5 of 5 |
 | 3. state carries to next tool | 5/5 | PASS | PASS | PASS | PASS | PASS | MET 5 of 5 |
-| 4. fit card returns certain values to user | 4/5 | FAIL | FAIL | PASS | PASS | PASS | MET 4 of 5 |
-| 5. Search lisitngs finds an exact match | 4/5 | PASS | PASS | PASS | PASS | PASS | MET 4 of 5 |
+| 4. fit card returns certain values to user | 4/5 | FAIL | FAIL | PASS | PASS | PASS | MISSED 3 of 5 |
+| 5. Search lisitngs finds an exact match | 4/5 | PASS | PASS | PASS | PASS | PASS | MET 5 of 5 |
 
 **Real output from one try**, pasted as text, naming the file and function
 that produced it:
@@ -347,6 +347,8 @@ behaved differently afterwards. If the rewire didn't work, say exactly where it
 broke — the error text and the last thing that worked. That earns the point in
 full. -->
 
+My agent.py used to call search_listings directly, but now it calls mcp_client.call_tool("search_listings") with the mcp tool. I noticed that nothing changed after this and the responses from the search_listings tool stayed the same.
+
 
 
 ---
@@ -359,23 +361,27 @@ full. -->
      `python run_eval.py --label after` -->
 
 **What I changed:**
+I changed the prompt in the fit card to be more specific and ensure the model knows to include the $ sign and price and make sure it also shows the users styled options. 
 
 **Which failure it was meant to fix:**
+This was meant to fix the failure where in the fit card the model gave back answers that were missing detail or not adding enough detail.
 
 ### Run Log — After
 
 | Criterion | Target | Try 1 | Try 2 | Try 3 | Try 4 | Try 5 | Verdict |
 |---|---|---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |  |  |
+| 1. matching query completes | 5/5 | PASS | PASS | PASS | PASS | PASS | MET 5 of 5 |
+| 2. impossible query stops early | 5/5 | PASS | PASS | PASS | PASS | PASS | MET 5 of 5 |
+| 3. state carries to next tool | 5/5 | PASS | PASS | PASS | PASS | PASS | MET 5 of 5 |
+| 4. fit card returns certain values to user | 4/5 | PASS | FAIL | PASS | PASS | PASS | MET 4 of 5 |
+| 5. Search lisitngs finds an exact match | 4/5 | PASS | PASS | PASS | PASS | PASS | MET 5 of 5 |
 
 **Did it help, and how do I know:**
 
 <!-- If it made things worse, say that. Honestly reported, that earns full
      credit and is more interesting than one that worked. -->
+
+This did help because it made the model respond better by making it add a $ sign in most prompts and the suggested stylings in all prompts. It also brought the citerion to 4/5 from 3/5 making it pass.
 
 
 
@@ -386,6 +392,8 @@ full. -->
 <!-- For each criterion still missed: what you'd do, and why you stopped where
      you did. "I ran out of time" is fine if it's true. Pretending nothing is
      left is not. -->
+
+One thing that is still broken is that the model prompt is not specifing exactly whats needed in the response which is causing issues. I stopped right here because I tried 3 different prompts and indivisually asked questions and still got similar error.
 
 
 
